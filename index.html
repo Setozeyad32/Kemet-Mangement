@@ -1,0 +1,3530 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Marketing Team Manager</title>
+
+  <style>
+    :root {
+      --bg: #090a0f;
+      --panel: #11131b;
+      --panel-2: #151823;
+      --line: #242733;
+      --text: #f4f4f5;
+      --muted: #85899a;
+
+      --accent: #7657ff;
+      --accent-2: #9278ff;
+
+      --green: #32c77b;
+      --orange: #f4a64b;
+      --red: #f05b67;
+      --blue: #54a7ff;
+
+      --shadow: 0 18px 50px #0008;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(
+          circle at 80% -20%,
+          #30206a22,
+          transparent 35%
+        ),
+        var(--bg);
+
+      color: var(--text);
+
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      font-size: 14px;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* =========================
+       APP LAYOUT
+    ========================= */
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .side {
+      width: 235px;
+
+      background: #0d0f15;
+      border-right: 1px solid var(--line);
+
+      padding: 18px 13px;
+
+      position: fixed;
+      inset: 0 auto 0 0;
+
+      z-index: 5;
+    }
+
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      padding: 5px 8px 22px;
+
+      font-weight: 700;
+    }
+
+    .logo {
+      width: 34px;
+      height: 34px;
+
+      border-radius: 10px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #6746ff,
+          #a48dff
+        );
+
+      display: grid;
+      place-items: center;
+
+      font-weight: 900;
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .nav button {
+      border: 0;
+      background: transparent;
+
+      color: #999eae;
+
+      text-align: left;
+
+      padding: 10px 12px;
+
+      border-radius: 9px;
+
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav button:hover,
+    .nav button.active {
+      background: #7657ff18;
+      color: #fff;
+    }
+
+    .sidefoot {
+      position: absolute;
+
+      bottom: 18px;
+      left: 14px;
+      right: 14px;
+
+      border: 1px solid var(--line);
+
+      padding: 12px;
+
+      border-radius: 12px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+    .main {
+      margin-left: 235px;
+
+      width: calc(100% - 235px);
+    }
+
+    /* =========================
+       TOP BAR
+    ========================= */
+
+    .top {
+      height: 66px;
+
+      border-bottom: 1px solid var(--line);
+
+      display: flex;
+      align-items: center;
+
+      padding: 0 28px;
+
+      position: sticky;
+      top: 0;
+
+      background: #090a0fd9;
+
+      backdrop-filter: blur(12px);
+
+      z-index: 4;
+    }
+
+    .search {
+      background: #11151f;
+
+      border: 1px solid var(--line);
+
+      border-radius: 8px;
+
+      padding: 9px 12px;
+
+      color: #ddd;
+
+      width: 260px;
+
+      outline: none;
+    }
+
+    .topright {
+      margin-left: auto;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+
+      border-radius: 50%;
+
+      background: #252936;
+
+      display: grid;
+      place-items: center;
+
+      color: #ddd;
+
+      font-weight: 700;
+    }
+
+    /* =========================
+       GENERAL
+    ========================= */
+
+    .page {
+      padding: 28px;
+
+      max-width: 1500px;
+
+      margin: auto;
+    }
+
+    .head {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      align-items: flex-end;
+
+      margin-bottom: 22px;
+    }
+
+    .head h1 {
+      margin: 0;
+
+      font-size: 26px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+
+      background: #151823;
+
+      color: #ddd;
+
+      border-radius: 9px;
+
+      padding: 9px 13px;
+    }
+
+    .btn:hover {
+      border-color: #3a3e4d;
+    }
+
+    .primary {
+      background: var(--accent);
+
+      border-color: var(--accent);
+
+      color: white;
+    }
+
+    .primary:hover {
+      background: #6848f0;
+    }
+
+    .danger {
+      color: #ff929b;
+    }
+
+    .grid {
+      display: grid;
+
+      gap: 14px;
+    }
+
+    .card {
+      background:
+        linear-gradient(
+          180deg,
+          #141722,
+          #11131b
+        );
+
+      border: 1px solid var(--line);
+
+      border-radius: 14px;
+
+      box-shadow: 0 8px 30px #0002;
+    }
+
+    .cardpad {
+      padding: 18px;
+    }
+
+    /* =========================
+       DASHBOARD
+    ========================= */
+
+    .stats {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .stat {
+      padding: 17px;
+    }
+
+    .stat .k {
+      font-size: 12px;
+
+      color: var(--muted);
+    }
+
+    .stat .v {
+      font-size: 27px;
+
+      font-weight: 700;
+
+      margin-top: 8px;
+    }
+
+    .dashboard {
+      grid-template-columns: 1.2fr .8fr;
+
+      margin-top: 14px;
+    }
+
+    .chart {
+      height: 240px;
+
+      display: flex;
+
+      align-items: flex-end;
+
+      gap: 12px;
+
+      padding: 18px 4px 8px;
+    }
+
+    .bar {
+      flex: 1;
+
+      background:
+        linear-gradient(
+          #866cff,
+          #5036d6
+        );
+
+      border-radius: 6px 6px 2px 2px;
+
+      min-height: 12px;
+    }
+
+    .progress {
+      height: 7px;
+
+      background: #252936;
+
+      border-radius: 9px;
+
+      overflow: hidden;
+    }
+
+    .progress i {
+      display: block;
+
+      height: 100%;
+
+      background: var(--accent);
+
+      border-radius: 9px;
+    }
+
+    /* =========================
+       TASKS
+    ========================= */
+
+    .task {
+      padding: 13px;
+
+      border: 1px solid var(--line);
+
+      border-radius: 11px;
+
+      background: #10131a;
+    }
+
+    .list {
+      display: grid;
+
+      gap: 9px;
+    }
+
+    .pill {
+      display: inline-flex;
+
+      align-items: center;
+
+      padding: 4px 8px;
+
+      border-radius: 999px;
+
+      font-size: 11px;
+
+      background: #242733;
+
+      color: #cbd0df;
+    }
+
+    .todo {
+      color: #aeb3c2;
+    }
+
+    .doing {
+      color: #62b0ff;
+
+      background: #54a7ff16;
+    }
+
+    .review {
+      color: #ffb85c;
+
+      background: #f4a64b16;
+    }
+
+    .done {
+      color: #59d890;
+
+      background: #32c77b16;
+    }
+
+    .urgent {
+      color: #ff8089;
+
+      background: #f05b6715;
+    }
+
+    .high {
+      color: #ffb96a;
+
+      background: #f4a64b12;
+    }
+
+    .medium {
+      color: #aab5ff;
+
+      background: #7657ff12;
+    }
+
+    .low {
+      color: #8e95a7;
+    }
+
+    .filters {
+      padding: 12px;
+
+      display: flex;
+
+      gap: 9px;
+
+      flex-wrap: wrap;
+
+      margin-bottom: 14px;
+    }
+
+    .input {
+      background: #10131a;
+
+      border: 1px solid var(--line);
+
+      border-radius: 8px;
+
+      padding: 9px 11px;
+
+      color: #eee;
+
+      outline: none;
+    }
+
+    .filters .input {
+      min-width: 130px;
+    }
+
+    .kanban {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 12px;
+    }
+
+    .column {
+      min-height: 500px;
+
+      background: #0e1017;
+
+      border: 1px solid var(--line);
+
+      border-radius: 13px;
+
+      padding: 10px;
+    }
+
+    .column h3 {
+      font-size: 11px;
+
+      color: #777c8d;
+
+      letter-spacing: .08em;
+    }
+
+    /* =========================
+       TEAM
+    ========================= */
+
+    .team {
+      grid-template-columns:
+        repeat(3, 1fr);
+    }
+
+    .member {
+      padding: 18px;
+    }
+
+    .bigavatar {
+      width: 46px;
+      height: 46px;
+
+      border-radius: 13px;
+
+      background: #242836;
+
+      display: grid;
+
+      place-items: center;
+
+      font-weight: 700;
+    }
+
+    .metricgrid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 8px;
+
+      margin-top: 16px;
+    }
+
+    .metric {
+      background: #0c0f15;
+
+      border: 1px solid var(--line);
+
+      padding: 9px;
+
+      border-radius: 9px;
+
+      text-align: center;
+    }
+
+    .metric b {
+      display: block;
+
+      font-size: 17px;
+    }
+
+    /* =========================
+       SHOOTS
+    ========================= */
+
+    .shoots {
+      grid-template-columns:
+        repeat(2, 1fr);
+    }
+
+    .shoot {
+      padding: 17px;
+    }
+
+    /* =========================
+       CALENDAR
+    ========================= */
+
+    .calendar {
+      overflow: hidden;
+    }
+
+    .calhead,
+    .calgrid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(7, 1fr);
+    }
+
+    .calhead div {
+      padding: 12px;
+
+      text-align: center;
+
+      color: #6e7383;
+
+      font-size: 11px;
+
+      text-transform: uppercase;
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .day {
+      min-height: 125px;
+
+      padding: 9px;
+
+      border-right: 1px solid var(--line);
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .daynum {
+      font-size: 12px;
+
+      color: #777c8b;
+
+      margin-bottom: 7px;
+    }
+
+    .event {
+      font-size: 10px;
+
+      padding: 5px 6px;
+
+      border-radius: 6px;
+
+      background: #7657ff16;
+
+      color: #bcaeff;
+
+      margin: 4px 0;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal {
+      position: fixed;
+
+      inset: 0;
+
+      background: #0009;
+
+      display: grid;
+
+      place-items: center;
+
+      padding: 18px;
+
+      z-index: 20;
+    }
+
+    .modalbox {
+      width: min(680px, 100%);
+
+      max-height: 90vh;
+
+      overflow: auto;
+
+      background: #12151e;
+
+      border: 1px solid #303442;
+
+      border-radius: 15px;
+
+      box-shadow: var(--shadow);
+
+      padding: 20px;
+    }
+
+    .formgrid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 12px;
+
+      color: #9da1af;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .actions {
+      display: flex;
+
+      justify-content: flex-end;
+
+      gap: 8px;
+
+      margin-top: 18px;
+    }
+
+    /* =========================
+       UTILITY
+    ========================= */
+
+    .row {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 12px;
+
+      align-items: center;
+    }
+
+    .toast {
+      position: fixed;
+
+      right: 20px;
+
+      bottom: 20px;
+
+      background: #171b25;
+
+      border: 1px solid #343847;
+
+      border-radius: 10px;
+
+      padding: 12px 15px;
+
+      z-index: 30;
+
+      box-shadow: var(--shadow);
+    }
+
+    .mobile {
+      display: none;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media(max-width:1100px) {
+
+      .stats {
+        grid-template-columns:
+          repeat(3, 1fr);
+      }
+
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .team,
+      .shoots {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .kanban {
+        overflow: auto;
+
+        grid-template-columns:
+          repeat(4, 260px);
+      }
+    }
+
+    @media(max-width:760px) {
+
+      .side {
+        display: none;
+      }
+
+      .main {
+        margin: 0;
+
+        width: 100%;
+      }
+
+      .mobile {
+        display: block;
+      }
+
+      .top {
+        padding: 0 14px;
+      }
+
+      .search {
+        width: 170px;
+      }
+
+      .page {
+        padding: 18px 14px;
+      }
+
+      .stats {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .team,
+      .shoots {
+        grid-template-columns: 1fr;
+      }
+
+      .formgrid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .head {
+        align-items: flex-start;
+
+        flex-direction: column;
+      }
+
+      .calgrid {
+        min-width: 700px;
+      }
+
+      .calendar {
+        overflow: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="app"></div>
+
+<script>
+
+const STORAGE_KEY = "marketing-team-manager-v1";
+
+/* =========================
+   HELPERS
+========================= */
+
+function uid() {
+  return Math.random()
+    .toString(36)
+    .slice(2) +
+    Date.now().toString(36);
+}
+
+function dateOffset(days = 0) {
+  const d = new Date();
+
+  d.setDate(
+    d.getDate() + days
+  );
+
+  return d
+    .toISOString()
+    .slice(0, 10);
+}
+
+/* =========================
+   DEMO DATA
+========================= */
+
+const demoData = {
+
+  user: "admin",
+
+  profiles: [
+
+    {
+      id: "admin",
+      name: "Zeyad",
+      email: "zeyad@demo.local",
+      job: "Marketing Manager",
+      role: "Admin"
+    },
+
+    {
+      id: "ahmed",
+      name: "Ahmed",
+      email: "ahmed@demo.local",
+      job: "Graphic Designer",
+      role: "Member"
+    },
+
+    {
+      id: "mohamed",
+      name: "Mohamed",
+      email: "mohamed@demo.local",
+      job: "Video Editor",
+      role: "Member"
+    },
+
+    {
+      id: "sara",
+      name: "Sara",
+      email: "sara@demo.local",
+      job: "Content Creator",
+      role: "Member"
+    }
+
+  ],
+
+  tasks: [
+
+    {
+      id: uid(),
+      title: "Instagram Campaign Design",
+      desc: "Create campaign visual system.",
+      assignee: "ahmed",
+      project: "Instagram Campaign",
+      priority: "high",
+      status: "doing",
+      due: dateOffset(2)
+    },
+
+    {
+      id: uid(),
+      title: "Edit Product Reel",
+      desc: "Edit first cut and captions.",
+      assignee: "mohamed",
+      project: "Product Launch",
+      priority: "urgent",
+      status: "review",
+      due: dateOffset(1)
+    },
+
+    {
+      id: uid(),
+      title: "Write Reel Script",
+      desc: "30-second launch reel script.",
+      assignee: "sara",
+      project: "Product Launch",
+      priority: "medium",
+      status: "todo",
+      due: dateOffset(4)
+    },
+
+    {
+      id: uid(),
+      title: "Create Offer Post",
+      desc: "Promotional offer post.",
+      assignee: "ahmed",
+      project: "October Campaign",
+      priority: "high",
+      status: "done",
+      due: dateOffset(-1)
+    },
+
+    {
+      id: uid(),
+      title: "Prepare Shoot Equipment",
+      desc: "Camera, lights, batteries and props.",
+      assignee: "mohamed",
+      project: "Production",
+      priority: "medium",
+      status: "done",
+      due: dateOffset(1)
+    }
+
+  ],
+
+  shoots: [
+
+    {
+      id: uid(),
+      title: "Festival Restaurant Shoot",
+      date: dateOffset(2),
+      start: "10:00",
+      end: "14:00",
+      location: "Minia",
+      desc: "Food photography, reels and BTS."
+    },
+
+    {
+      id: uid(),
+      title: "October Campaign Shoot",
+      date: dateOffset(9),
+      start: "09:30",
+      end: "15:00",
+      location: "Cairo",
+      desc: "Campaign assets for the next promotion."
+    }
+
+  ],
+
+  activity: [
+
+    {
+      text: "Workspace initialized with demo data",
+      user: "Zeyad",
+      time: "Just now"
+    },
+
+    {
+      text: "Completed Prepare Shoot Equipment",
+      user: "Mohamed",
+      time: "Yesterday"
+    },
+
+    {
+      text: "Task assigned: Edit Product Reel",
+      user: "Zeyad",
+      time: "2 days ago"
+    }
+
+  ]
+
+};
+
+/* =========================
+   STATE
+========================= */
+
+let data =
+  JSON.parse(
+    localStorage.getItem(STORAGE_KEY)
+  ) || demoData;
+
+let currentPage = "dashboard";
+
+let modal = null;
+
+/* =========================
+   STORAGE
+========================= */
+
+function save() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(data)
+  );
+
+  render();
+}
+
+function currentUser() {
+
+  return data.profiles.find(
+    p => p.id === data.user
+  );
+}
+
+function person(id) {
+
+  return data.profiles.find(
+    p => p.id === id
+  );
+}
+
+/* =========================
+   TOAST
+========================= */
+
+function toast(message) {
+
+  const element =
+    document.createElement("div");
+
+  element.className = "toast";
+
+  element.textContent = message;
+
+  document.body.appendChild(element);
+
+  setTimeout(
+    () => element.remove(),
+    1800
+  );
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function go(page) {
+
+  currentPage = page;
+
+  if (!data.user) {
+
+    login();
+
+    return;
+  }
+
+  render();
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+function sidebar() {
+
+  return `
+
+    <aside class="side">
+
+      <div class="brand">
+
+        <div class="logo">
+          M
+        </div>
+
+        <div>
+          Marketing Team<br>
+          Manager
+        </div>
+
+      </div>
+
+      <div class="nav">
+
+        <button
+          class="${currentPage === "dashboard" ? "active" : ""}"
+          onclick="go('dashboard')">
+
+          <span>▦</span>
+          Dashboard
+
+        </button>
+
+        <button
+          class="${currentPage === "tasks" ? "active" : ""}"
+          onclick="go('tasks')">
+
+          <span>✓</span>
+          Tasks
+
+        </button>
+
+        <button
+          class="${currentPage === "team" ? "active" : ""}"
+          onclick="go('team')">
+
+          <span>◉</span>
+          Team
+
+        </button>
+
+        <button
+          class="${currentPage === "shoots" ? "active" : ""}"
+          onclick="go('shoots')">
+
+          <span>▣</span>
+          Shoot Days
+
+        </button>
+
+        <button
+          class="${currentPage === "calendar" ? "active" : ""}"
+          onclick="go('calendar')">
+
+          <span>□</span>
+          Calendar
+
+        </button>
+
+        <button
+          class="${currentPage === "settings" ? "active" : ""}"
+          onclick="go('settings')">
+
+          <span>⚙</span>
+          Settings
+
+        </button>
+
+      </div>
+
+      <div class="sidefoot">
+
+        <b>${currentUser().name}</b>
+
+        <br>
+
+        ${currentUser().job}
+
+        <br><br>
+
+        <button
+          class="btn"
+          style="width:100%"
+          onclick="logout()">
+
+          Logout
+
+        </button>
+
+      </div>
+
+    </aside>
+  `;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+function topbar() {
+
+  return `
+
+    <header class="top">
+
+      <input
+        class="search"
+        placeholder="Search tasks..."
+        oninput="globalSearch(this.value)"
+      >
+
+      <div class="topright">
+
+        <span>🔔</span>
+
+        <div class="avatar">
+
+          ${currentUser().name[0]}
+
+        </div>
+
+      </div>
+
+    </header>
+  `;
+}
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+function pageHeader(
+  title,
+  description,
+  action = ""
+) {
+
+  return `
+
+    <div class="head">
+
+      <div>
+
+        <h1>${title}</h1>
+
+        <div
+          class="muted"
+          style="margin-top:5px">
+
+          ${description}
+
+        </div>
+
+      </div>
+
+      ${action}
+
+    </div>
+
+  `;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function dashboard() {
+
+  const tasks =
+    visibleTasks();
+
+  const total =
+    tasks.length;
+
+  const completed =
+    tasks.filter(
+      t => t.status === "done"
+    ).length;
+
+  const doing =
+    tasks.filter(
+      t => t.status === "doing"
+    ).length;
+
+  const review =
+    tasks.filter(
+      t => t.status === "review"
+    ).length;
+
+  const overdue =
+    tasks.filter(
+      t =>
+        t.status !== "done" &&
+        t.due < dateOffset(0)
+    ).length;
+
+  const completion =
+    total
+      ? Math.round(
+          completed / total * 100
+        )
+      : 0;
+
+  return `
+
+    ${pageHeader(
+      "Dashboard",
+      "Here's what's happening with your marketing team today."
+    )}
+
+    <div class="grid stats">
+
+      ${statCard(
+        "Total Tasks",
+        total,
+        "▣"
+      )}
+
+      ${statCard(
+        "In Progress",
+        doing,
+        "◐"
+      )}
+
+      ${statCard(
+        "Completed",
+        completed,
+        "✓"
+      )}
+
+      ${statCard(
+        "Review",
+        review,
+        "◌"
+      )}
+
+      ${statCard(
+        "Overdue",
+        overdue,
+        "!"
+      )}
+
+    </div>
+
+    <div class="grid dashboard">
+
+      <div class="card cardpad">
+
+        <div class="row">
+
+          <div>
+            <b>Team Progress</b>
+
+            <div class="muted">
+              Current task completion
+            </div>
+          </div>
+
+          <b>${completion}%</b>
+
+        </div>
+
+        <div class="progress"
+             style="margin-top:14px">
+
+          <i style="width:${completion}%"></i>
+
+        </div>
+
+        <div
+          class="chart"
+          style="margin-top:20px">
+
+          ${[40,55,48,72,61,82,90]
+            .map(
+              value =>
+                `<div
+                  class="bar"
+                  style="height:${value}%">
+                </div>`
+            )
+            .join("")}
+
+        </div>
+
+      </div>
+
+      <div class="card cardpad">
+
+        <b>Tasks by Status</b>
+
+        <div
+          class="list"
+          style="margin-top:20px">
+
+          ${statusRow(
+            "To Do",
+            tasks.filter(
+              t => t.status === "todo"
+            ).length
+          )}
+
+          ${statusRow(
+            "In Progress",
+            doing
+          )}
+
+          ${statusRow(
+            "Review",
+            review
+          )}
+
+          ${statusRow(
+            "Done",
+            completed
+          )}
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      class="grid dashboard"
+      style="margin-top:14px">
+
+      <div class="card cardpad">
+
+        <div class="row">
+
+          <b>Upcoming Tasks</b>
+
+          <button
+            class="btn"
+            onclick="go('tasks')">
+
+            View all
+
+          </button>
+
+        </div>
+
+        <div
+          class="list"
+          style="margin-top:15px">
+
+          ${tasks
+            .filter(
+              t => t.status !== "done"
+            )
+            .slice(0, 5)
+            .map(taskSmall)
+            .join("")}
+
+        </div>
+
+      </div>
+
+      <div class="card cardpad">
+
+        <b>Upcoming Shoot Days</b>
+
+        <div
+          class="list"
+          style="margin-top:15px">
+
+          ${data.shoots
+            .filter(
+              s => s.date >= dateOffset(0)
+            )
+            .slice(0, 4)
+            .map(
+              s => `
+
+                <div class="task">
+
+                  <b>${s.title}</b>
+
+                  <div
+                    class="muted"
+                    style="margin-top:5px">
+
+                    ${s.date}
+                    ·
+                    ${s.start} - ${s.end}
+
+                  </div>
+
+                  <div
+                    class="muted"
+                    style="margin-top:4px">
+
+                    📍 ${s.location}
+
+                  </div>
+
+                </div>
+
+              `
+            )
+            .join("")}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+function statCard(
+  label,
+  value,
+  icon
+) {
+
+  return `
+
+    <div class="card stat">
+
+      <div class="k">
+        ${icon} &nbsp; ${label}
+      </div>
+
+      <div class="v">
+        ${value}
+      </div>
+
+    </div>
+
+  `;
+}
+
+function statusRow(
+  label,
+  count
+) {
+
+  return `
+
+    <div class="row">
+
+      <span class="muted">
+        ${label}
+      </span>
+
+      <b>${count}</b>
+
+    </div>
+
+  `;
+}
+
+function taskSmall(task) {
+
+  const user =
+    person(task.assignee);
+
+  return `
+
+    <div class="task">
+
+      <div class="row">
+
+        <b>${task.title}</b>
+
+        <span class="pill ${task.status}">
+          ${statusLabel(task.status)}
+        </span>
+
+      </div>
+
+      <div
+        class="muted"
+        style="margin-top:6px">
+
+        ${user ? user.name : ""}
+
+        ·
+
+        ${task.project}
+
+        ·
+
+        Due ${task.due}
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+/* =========================
+   TASKS
+========================= */
+
+let taskFilter = "";
+
+function visibleTasks() {
+
+  let tasks =
+    data.tasks;
+
+  if (
+    currentUser().role === "Member"
+  ) {
+
+    tasks =
+      tasks.filter(
+        t =>
+          t.assignee ===
+          currentUser().id
+      );
+  }
+
+  return tasks;
+}
+
+function tasksPage() {
+
+  const tasks =
+    visibleTasks().filter(
+      task => {
+
+        if (!taskFilter)
+          return true;
+
+        return (
+          task.title
+            .toLowerCase()
+            .includes(
+              taskFilter.toLowerCase()
+            ) ||
+
+          task.project
+            .toLowerCase()
+            .includes(
+              taskFilter.toLowerCase()
+            )
+        );
+      }
+    );
+
+  const statuses = [
+    "todo",
+    "doing",
+    "review",
+    "done"
+  ];
+
+  return `
+
+    ${pageHeader(
+      "Tasks",
+      "Manage projects, deadlines and team workload.",
+      currentUser().role === "Admin"
+        ? `
+          <button
+            class="btn primary"
+            onclick="openTask()">
+
+            + Create Task
+
+          </button>
+        `
+        : ""
+    )}
+
+    <div class="card filters">
+
+      <input
+        id="taskSearch"
+        class="input"
+        placeholder="Search tasks..."
+        value="${taskFilter}"
+        oninput="
+          taskFilter=this.value;
+          render();
+        "
+      >
+
+      <select
+        class="input"
+        onchange="
+          taskStatusFilter=this.value;
+          render();
+        ">
+
+        <option value="">
+          All Statuses
+        </option>
+
+        <option value="todo">
+          To Do
+        </option>
+
+        <option value="doing">
+          In Progress
+        </option>
+
+        <option value="review">
+          Review
+        </option>
+
+        <option value="done">
+          Done
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="kanban">
+
+      ${statuses
+        .map(
+          status => `
+
+            <div class="column">
+
+              <h3>
+                ${statusLabel(status)}
+              </h3>
+
+              <div
+                class="list">
+
+                ${tasks
+                  .filter(
+                    t =>
+                      t.status ===
+                      status
+                  )
+                  .map(
+                    taskCard
+                  )
+                  .join("")}
+
+              </div>
+
+            </div>
+
+          `
+        )
+        .join("")}
+
+    </div>
+
+  `;
+}
+
+let taskStatusFilter = "";
+
+function taskCard(task) {
+
+  if (
+    taskStatusFilter &&
+    task.status !== taskStatusFilter
+  ) {
+    return "";
+  }
+
+  const user =
+    person(task.assignee);
+
+  return `
+
+    <div
+      class="task"
+      style="cursor:pointer"
+      onclick="openTask('${task.id}')">
+
+      <div class="row">
+
+        <b>${task.title}</b>
+
+        <span
+          class="pill ${task.priority}">
+
+          ${task.priority}
+
+        </span>
+
+      </div>
+
+      <div
+        class="muted"
+        style="margin-top:9px">
+
+        ${task.project || "No project"}
+
+      </div>
+
+      <div
+        class="row"
+        style="margin-top:12px">
+
+        <span class="muted">
+
+          ${user ? user.name : "Unassigned"}
+
+        </span>
+
+        <span class="pill ${task.status}">
+
+          ${statusLabel(task.status)}
+
+        </span>
+
+      </div>
+
+      <div
+        class="muted"
+        style="margin-top:8px;font-size:11px">
+
+        Due: ${task.due}
+
+      </div>
+
+      ${
+        currentUser().role === "Admin"
+          ? `
+            <div
+              style="
+                margin-top:10px;
+                display:flex;
+                gap:6px
+              ">
+
+              <button
+                class="btn"
+                onclick="
+                  event.stopPropagation();
+                  openTask('${task.id}')
+                ">
+
+                Edit
+
+              </button>
+
+              <button
+                class="btn danger"
+                onclick="
+                  event.stopPropagation();
+                  deleteTask('${task.id}')
+                ">
+
+                Delete
+
+              </button>
+
+            </div>
+          `
+          : ""
+      }
+
+    </div>
+
+  `;
+}
+
+function statusLabel(status) {
+
+  return {
+
+    todo: "To Do",
+    doing: "In Progress",
+    review: "Review",
+    done: "Done"
+
+  }[status] || status;
+}
+
+/* =========================
+   TASK MODAL
+========================= */
+
+function openTask(id) {
+
+  if (
+    currentUser().role !== "Admin"
+  ) {
+    return;
+  }
+
+  const task =
+    data.tasks.find(
+      t => t.id === id
+    ) || {
+
+      title: "",
+      desc: "",
+      assignee:
+        data.profiles.find(
+          p => p.role === "Member"
+        )?.id || "",
+      project: "",
+      priority: "medium",
+      status: "todo",
+      due: dateOffset(2)
+
+    };
+
+  modal = {
+
+    type: "task",
+
+    id: id,
+
+    form: {
+      ...task
+    }
+
+  };
+
+  renderModal();
+}
+
+function saveTask() {
+
+  const form =
+    modal.form;
+
+  if (
+    !form.title.trim()
+  ) {
+
+    toast("Enter a task title");
+
+    return;
+  }
+
+  if (modal.id) {
+
+    const task =
+      data.tasks.find(
+        t => t.id === modal.id
+      );
+
+    Object.assign(
+      task,
+      form
+    );
+
+  } else {
+
+    form.id = uid();
+
+    data.tasks.unshift(
+      form
+    );
+  }
+
+  data.activity.unshift({
+
+    text:
+      `${modal.id ? "Updated" : "Created"} task: ${form.title}`,
+
+    user:
+      currentUser().name,
+
+    time:
+      "Just now"
+
+  });
+
+  modal = null;
+
+  save();
+
+  toast("Task saved");
+}
+
+function deleteTask(id) {
+
+  if (
+    !confirm(
+      "Delete this task?"
+    )
+  ) {
+    return;
+  }
+
+  const task =
+    data.tasks.find(
+      t => t.id === id
+    );
+
+  data.tasks =
+    data.tasks.filter(
+      t => t.id !== id
+    );
+
+  data.activity.unshift({
+
+    text:
+      `Deleted task: ${task.title}`,
+
+    user:
+      currentUser().name,
+
+    time:
+      "Just now"
+
+  });
+
+  save();
+
+  toast("Task deleted");
+}
+
+/* =========================
+   TEAM
+========================= */
+
+function team() {
+
+  return `
+
+    ${pageHeader(
+      "Team",
+      "Objective workload and completion metrics."
+    )}
+
+    <div class="grid team">
+
+      ${data.profiles
+        .map(
+          profile => {
+
+            const tasks =
+              data.tasks.filter(
+                t =>
+                  t.assignee ===
+                  profile.id
+              );
+
+            const completed =
+              tasks.filter(
+                t =>
+                  t.status === "done"
+              ).length;
+
+            const rate =
+              tasks.length
+                ? Math.round(
+                    completed /
+                    tasks.length *
+                    100
+                  )
+                : 0;
+
+            const overdue =
+              tasks.filter(
+                t =>
+                  t.status !== "done" &&
+                  t.due <
+                    dateOffset(0)
+              ).length;
+
+            return `
+
+              <div class="card member">
+
+                <div class="row">
+
+                  <div
+                    style="
+                      display:flex;
+                      gap:12px;
+                      align-items:center
+                    ">
+
+                    <div class="bigavatar">
+                      ${profile.name[0]}
+                    </div>
+
+                    <div>
+
+                      <b>
+                        ${profile.name}
+                      </b>
+
+                      <div class="muted">
+                        ${profile.job}
+                      </div>
+
+                      <span
+                        class="muted"
+                        style="
+                          font-size:10px;
+                          text-transform:uppercase
+                        ">
+
+                        ${profile.role}
+
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="metricgrid">
+
+                  <div class="metric">
+                    <b>${tasks.length}</b>
+                    <span class="muted">
+                      Total
+                    </span>
+                  </div>
+
+                  <div class="metric">
+                    <b>${completed}</b>
+                    <span class="muted">
+                      Done
+                    </span>
+                  </div>
+
+                  <div class="metric">
+                    <b>
+                      ${
+                        tasks.filter(
+                          t =>
+                            t.status ===
+                            "doing"
+                        ).length
+                      }
+                    </b>
+
+                    <span class="muted">
+                      Active
+                    </span>
+                  </div>
+
+                  <div class="metric">
+                    <b>${overdue}</b>
+                    <span class="muted">
+                      Overdue
+                    </span>
+                  </div>
+
+                </div>
+
+                <div
+                  style="margin-top:16px">
+
+                  <div class="row">
+
+                    <span class="muted">
+                      Completion
+                    </span>
+
+                    <b>
+                      ${rate}%
+                    </b>
+
+                  </div>
+
+                  <div
+                    class="progress"
+                    style="margin-top:7px">
+
+                    <i
+                      style="width:${rate}%">
+                    </i>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            `;
+          }
+        )
+        .join("")}
+
+    </div>
+
+  `;
+}
+
+/* =========================
+   SHOOT DAYS
+========================= */
+
+function shoots() {
+
+  return `
+
+    ${pageHeader(
+      "Shoot Days",
+      "Production schedule and locations.",
+
+      currentUser().role === "Admin"
+        ? `
+          <button
+            class="btn primary"
+            onclick="openShoot()">
+
+            + Add Shoot Day
+
+          </button>
+        `
+        : ""
+    )}
+
+    <div class="grid shoots">
+
+      ${data.shoots
+        .map(
+          shoot => `
+
+            <div class="card shoot">
+
+              <div class="row">
+
+                <div>
+
+                  <b>
+                    ${shoot.title}
+                  </b>
+
+                  <div
+                    class="muted"
+                    style="margin-top:5px">
+
+                    ${shoot.desc}
+
+                  </div>
+
+                </div>
+
+                <span class="pill doing">
+
+                  ${shoot.date}
+
+                </span>
+
+              </div>
+
+              <div
+                class="muted"
+                style="margin-top:15px">
+
+                ${shoot.start}
+                —
+                ${shoot.end}
+
+                ·
+
+                ${shoot.location}
+
+              </div>
+
+              ${
+                currentUser().role ===
+                "Admin"
+                  ? `
+
+                    <div
+                      style="margin-top:14px">
+
+                      <button
+                        class="btn"
+                        onclick="
+                          openShoot('${shoot.id}')
+                        ">
+
+                        Edit
+
+                      </button>
+
+                      <button
+                        class="btn danger"
+                        onclick="
+                          deleteShoot('${shoot.id}')
+                        ">
+
+                        Delete
+
+                      </button>
+
+                    </div>
+
+                  `
+                  : ""
+              }
+
+            </div>
+
+          `
+        )
+        .join("")}
+
+    </div>
+
+  `;
+}
+
+function openShoot(id) {
+
+  const shoot =
+    data.shoots.find(
+      s => s.id === id
+    ) || {
+
+      title: "",
+      desc: "",
+      date: dateOffset(2),
+      start: "10:00",
+      end: "14:00",
+      location: ""
+
+    };
+
+  modal = {
+
+    type: "shoot",
+
+    id,
+
+    form: {
+      ...shoot
+    }
+
+  };
+
+  renderModal();
+}
+
+function saveShoot() {
+
+  const form =
+    modal.form;
+
+  if (
+    !form.title.trim()
+  ) {
+
+    toast(
+      "Enter a shoot day title"
+    );
+
+    return;
+  }
+
+  if (modal.id) {
+
+    Object.assign(
+      data.shoots.find(
+        s => s.id === modal.id
+      ),
+      form
+    );
+
+  } else {
+
+    form.id = uid();
+
+    data.shoots.push(
+      form
+    );
+
+  }
+
+  data.activity.unshift({
+
+    text:
+      `${modal.id ? "Updated" : "Created"} shoot day: ${form.title}`,
+
+    user:
+      currentUser().name,
+
+    time:
+      "Just now"
+
+  });
+
+  modal = null;
+
+  save();
+
+  toast(
+    "Shoot day saved"
+  );
+}
+
+function deleteShoot(id) {
+
+  if (
+    !confirm(
+      "Delete this shoot day?"
+    )
+  ) {
+    return;
+  }
+
+  data.shoots =
+    data.shoots.filter(
+      s => s.id !== id
+    );
+
+  save();
+
+  toast(
+    "Shoot day deleted"
+  );
+}
+
+/* =========================
+   CALENDAR
+========================= */
+
+function calendar() {
+
+  const now =
+    new Date();
+
+  const year =
+    now.getFullYear();
+
+  const month =
+    now.getMonth();
+
+  const firstDay =
+    new Date(
+      year,
+      month,
+      1
+    ).getDay();
+
+  const daysInMonth =
+    new Date(
+      year,
+      month + 1,
+      0
+    ).getDate();
+
+  let cells = "";
+
+  for (
+    let i = 0;
+    i < firstDay;
+    i++
+  ) {
+
+    cells += `
+      <div class="day"></div>
+    `;
+  }
+
+  for (
+    let day = 1;
+    day <= daysInMonth;
+    day++
+  ) {
+
+    const date =
+      `${year}-${String(
+        month + 1
+      ).padStart(2, "0")}-${String(
+        day
+      ).padStart(2, "0")}`;
+
+    const events = [
+
+      ...visibleTasks()
+        .filter(
+          task =>
+            task.due === date
+        )
+        .map(
+          task =>
+            task.title
+        ),
+
+      ...data.shoots
+        .filter(
+          shoot =>
+            shoot.date === date
+        )
+        .map(
+          shoot =>
+            shoot.title
+        )
+
+    ];
+
+    cells += `
+
+      <div class="day">
+
+        <div class="daynum">
+          ${day}
+        </div>
+
+        ${events
+          .slice(0, 3)
+          .map(
+            event =>
+              `
+                <div class="event">
+                  ${event}
+                </div>
+              `
+          )
+          .join("")}
+
+      </div>
+
+    `;
+  }
+
+  return `
+
+    ${pageHeader(
+      "Calendar",
+      "Deadlines and shoot days in one view."
+    )}
+
+    <div class="card calendar">
+
+      <div class="calhead">
+
+        ${[
+          "Sun",
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat"
+        ]
+          .map(
+            day =>
+              `<div>${day}</div>`
+          )
+          .join("")}
+
+      </div>
+
+      <div class="calgrid">
+
+        ${cells}
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+function settings() {
+
+  const user =
+    currentUser();
+
+  return `
+
+    ${pageHeader(
+      "Settings",
+      "Local workspace preferences."
+    )}
+
+    <div
+      class="card cardpad"
+      style="max-width:700px">
+
+      <div class="field">
+
+        <label>
+          Full name
+        </label>
+
+        <input
+          class="input"
+          id="settingsName"
+          value="${user.name}"
+        >
+
+      </div>
+
+      <div
+        class="field"
+        style="margin-top:12px">
+
+        <label>
+          Job title
+        </label>
+
+        <input
+          class="input"
+          id="settingsJob"
+          value="${user.job}"
+        >
+
+      </div>
+
+      <div
+        class="field"
+        style="margin-top:12px">
+
+        <label>
+          Email
+        </label>
+
+        <input
+          class="input"
+          disabled
+          value="${user.email}"
+        >
+
+      </div>
+
+      <div
+        style="margin-top:18px">
+
+        <button
+          class="btn primary"
+          onclick="saveSettings()">
+
+          Save Profile
+
+        </button>
+
+      </div>
+
+      <hr
+        style="
+          border:0;
+          border-top:1px solid var(--line);
+          margin:24px 0
+        "
+      >
+
+      <b>
+        Reset Demo Data
+      </b>
+
+      <p class="muted">
+
+        Restore the original sample
+        tasks, team members and shoot days.
+
+      </p>
+
+      <button
+        class="btn"
+        onclick="resetData()">
+
+        Reset Workspace
+
+      </button>
+
+    </div>
+
+  `;
+}
+
+function saveSettings() {
+
+  const user =
+    currentUser();
+
+  user.name =
+    document.getElementById(
+      "settingsName"
+    ).value ||
+    user.name;
+
+  user.job =
+    document.getElementById(
+      "settingsJob"
+    ).value ||
+    user.job;
+
+  save();
+
+  toast(
+    "Profile updated"
+  );
+}
+
+function resetData() {
+
+  if (
+    !confirm(
+      "Restore demo data?"
+    )
+  ) {
+    return;
+  }
+
+  localStorage.removeItem(
+    STORAGE_KEY
+  );
+
+  location.reload();
+}
+
+/* =========================
+   MODAL
+========================= */
+
+function renderModal() {
+
+  if (!modal) {
+    return;
+  }
+
+  const form =
+    modal.form;
+
+  const root =
+    document.getElementById(
+      "modalRoot"
+    );
+
+  if (
+    modal.type === "task"
+  ) {
+
+    root.innerHTML = `
+
+      <div class="modal">
+
+        <div class="modalbox">
+
+          <div class="row">
+
+            <h2 style="margin:0">
+
+              ${
+                modal.id
+                  ? "Edit Task"
+                  : "Create New Task"
+              }
+
+            </h2>
+
+            <button
+              class="btn"
+              onclick="closeModal()">
+
+              Close
+
+            </button>
+
+          </div>
+
+          <div
+            class="formgrid"
+            style="margin-top:18px">
+
+            <div
+              class="field full">
+
+              <label>
+                Task Title
+              </label>
+
+              <input
+                class="input"
+                id="taskTitle"
+                value="${form.title || ""}"
+              >
+
+            </div>
+
+            <div
+              class="field full">
+
+              <label>
+                Description
+              </label>
+
+              <textarea
+                class="input"
+                id="taskDescription"
+                rows="4"
+              >${form.desc || ""}</textarea>
+
+            </div>
+
+            <div class="field">
+
+              <label>
+                Assigned To
+              </label>
+
+              <select
+                class="input"
+                id="taskAssignee">
+
+                ${data.profiles
+                  .filter(
+                    p =>
+                      p.role ===
+                      "Member"
+                  )
+                  .map(
+                    p => `
+
+                      <option
+                        value="${p.id}"
+                        ${
+                          p.id ===
+                          form.assignee
+                            ? "selected"
+                            : ""
+                        }>
+
+                        ${p.name}
+
+                      </option>
+
+                    `
+                  )
+                  .join("")}
+
+              </select>
+
+            </div>
+
+            <div class="field">
+
+              <label>
+                Project
+              </label>
+
+              <input
+                class="input"
+                id="taskProject"
+                value="${form.project || ""}"
+              >
+
+            </div>
+
+            <div class="field">
+
+              <label>
+                Priority
+              </label>
+
+              <select
+                class="input"
+                id="taskPriority">
+
+                ${[
+                  "low",
+                  "medium",
+                  "high",
+                  "urgent"
+                ]
+                  .map(
+                    priority =>
+                      `
+                        <option
+                          value="${priority}"
+                          ${
+                            priority ===
+                            form.priority
+                              ? "selected"
+                              : ""
+                          }>
+
+                          ${priority}
+
+                        </option>
+                      `
+                  )
+                  .join("")}
+
+              </select>
+
+            </div>
+
+            <div class="field">
+
+              <label>
+                Status
+              </label>
+
+              <select
+                class="input"
+                id="taskStatus">
+
+                ${[
+                  "todo",
+                  "doing",
+                  "review",
+                  "done"
+                ]
+                  .map(
+                    status =>
+                      `
+                        <option
+                          value="${status}"
+                          ${
+                            status ===
+                            form.status
+                              ? "selected"
+                              : ""
+                          }>
+
+                          ${statusLabel(
+                            status
+                          )}
+
+                        </option>
+                      `
+                  )
+                  .join("")}
+
+              </select>
+
+            </div>
+
+            <div class="field">
+
+              <label>
+                Due Date
+              </label>
+
+              <input
+                class="input"
+                id="taskDue"
+                type="date"
+                value="${form.due || ""}"
+              >
+
+            </div>
+
+          </div>
+
+          <div class="actions">
+
+            <button
+              class="btn"
+              onclick="closeModal()">
+
+              Cancel
+
+            </button>
+
+            <button
+              class="btn primary"
+              onclick="submitTaskModal()">
+
+              Save Task
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  } else {
+
+    root.innerHTML = `
+
+      <div class="modal">
+
+        <div class="modalbox">
+
+          <div class="row">
+
+            <h2 style="margin:0">
+
+              ${
+                modal.id
+                  ? "Edit Shoot Day"
+                  : "Create Shoot Day"
+              }
+
+            </h2>
+
+            <button
+              class="btn"
+              onclick="closeModal()">
+
+              Close
+
+            </button>
+
+          </div>
+
+          <div
+            class="formgrid"
+            style="margin-top:18px">
+
+            <div class="field full">
+
+              <label>
+                Title
+              </label>
+
+              <input
+                class="input"
+                id="shootTitle"
+                value="${form.title || ""}"
+              >
+
+            </div>
+
+            <div class="field full">
+
+              <label>
+                Description
+              </label>
+
+              <textarea
+                class="input"
+                id="shootDescription"
+                rows="3"
+              >${form.desc || ""}</textarea>
+
+            </div>
+
+            <div class="field">
+
+              <label>
+                Date
+              </label>
+
+              <input
+                class="input"
+                id="shootDate"
+                type="date"
+                value="${form.date || ""}"
+              >
+
+            </div>
+
+            <div class="field">
+
+              <label>
+                Location
+              </label>
+
+              <input
+                class="input"
+                id="shootLocation"
+                value="${form.location || ""}"
+              >
+
+            </div>
+
+            <div class="field">
+
+              <label>
+                Start Time
+              </label>
+
+              <input
+                class="input"
+                id="shootStart"
+                type="time"
+                value="${form.start || ""}"
+              >
+
+            </div>
+
+            <div class="field">
+
+              <label>
+                End Time
+              </label>
+
+              <input
+                class="input"
+                id="shootEnd"
+                type="time"
+                value="${form.end || ""}"
+              >
+
+            </div>
+
+          </div>
+
+          <div class="actions">
+
+            <button
+              class="btn"
+              onclick="closeModal()">
+
+              Cancel
+
+            </button>
+
+            <button
+              class="btn primary"
+              onclick="submitShootModal()">
+
+              Save Shoot Day
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+  }
+}
+
+function closeModal() {
+
+  modal = null;
+
+  const root =
+    document.getElementById(
+      "modalRoot"
+    );
+
+  if (root) {
+    root.innerHTML = "";
+  }
+}
+
+function submitTaskModal() {
+
+  modal.form = {
+
+    ...modal.form,
+
+    title:
+      document.getElementById(
+        "taskTitle"
+      ).value,
+
+    desc:
+      document.getElementById(
+        "taskDescription"
+      ).value,
+
+    assignee:
+      document.getElementById(
+        "taskAssignee"
+      ).value,
+
+    project:
+      document.getElementById(
+        "taskProject"
+      ).value,
+
+    priority:
+      document.getElementById(
+        "taskPriority"
+      ).value,
+
+    status:
+      document.getElementById(
+        "taskStatus"
+      ).value,
+
+    due:
+      document.getElementById(
+        "taskDue"
+      ).value
+
+  };
+
+  saveTask();
+}
+
+function submitShootModal() {
+
+  modal.form = {
+
+    ...modal.form,
+
+    title:
+      document.getElementById(
+        "shootTitle"
+      ).value,
+
+    desc:
+      document.getElementById(
+        "shootDescription"
+      ).value,
+
+    date:
+      document.getElementById(
+        "shootDate"
+      ).value,
+
+    location:
+      document.getElementById(
+        "shootLocation"
+      ).value,
+
+    start:
+      document.getElementById(
+        "shootStart"
+      ).value,
+
+    end:
+      document.getElementById(
+        "shootEnd"
+      ).value
+
+  };
+
+  saveShoot();
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+function login() {
+
+  document.getElementById(
+    "app"
+  ).innerHTML = `
+
+    <div
+      style="
+        min-height:100vh;
+        display:grid;
+        place-items:center;
+        padding:20px;
+        background:
+          radial-gradient(
+            circle at 70% 20%,
+            #7657ff20,
+            transparent 35%
+          ),
+          var(--bg)
+      ">
+
+      <div
+        class="card cardpad"
+        style="width:min(440px,100%)">
+
+        <div
+          style="
+            display:flex;
+            gap:10px;
+            align-items:center;
+            margin-bottom:25px
+          ">
+
+          <div class="logo">
+            M
+          </div>
+
+          <b>
+            Marketing Team Manager
+          </b>
+
+        </div>
+
+        <h1
+          style="
+            font-size:25px;
+            margin:0
+          ">
+
+          Open your workspace
+
+        </h1>
+
+        <p class="muted">
+
+          No password.
+          No database.
+          No server.
+
+        </p>
+
+        <div
+          class="list"
+          style="margin-top:20px">
+
+          ${data.profiles
+            .map(
+              profile => `
+
+                <button
+                  class="btn"
+                  style="text-align:left"
+                  onclick="
+                    enterWorkspace(
+                      '${profile.id}'
+                    )
+                  ">
+
+                  <b>
+                    ${profile.name}
+                  </b>
+
+                  <span class="muted">
+                    · ${profile.job}
+                  </span>
+
+                  <div
+                    class="muted"
+                    style="
+                      font-size:11px;
+                      margin-top:4px
+                    ">
+
+                    ${profile.email}
+
+                  </div>
+
+                </button>
+
+              `
+            )
+            .join("")}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+function enterWorkspace(id) {
+
+  data.user = id;
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(data)
+  );
+
+  currentPage = "dashboard";
+
+  render();
+}
+
+function logout() {
+
+  data.user = "";
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(data)
+  );
+
+  login();
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+function globalSearch(value) {
+
+  if (!value) {
+    return;
+  }
+
+  currentPage = "tasks";
+
+  taskFilter = value;
+
+  render();
+}
+
+/* =========================
+   MAIN RENDER
+========================= */
+
+function render() {
+
+  if (!data.user) {
+
+    login();
+
+    return;
+  }
+
+  let content = "";
+
+  switch (
+    currentPage
+  ) {
+
+    case "dashboard":
+      content = dashboard();
+      break;
+
+    case "tasks":
+      content = tasksPage();
+      break;
+
+    case "team":
+      content = team();
+      break;
+
+    case "shoots":
+      content = shoots();
+      break;
+
+    case "calendar":
+      content = calendar();
+      break;
+
+    case "settings":
+      content = settings();
+      break;
+
+    default:
+      content = dashboard();
+
+  }
+
+  document.getElementById(
+    "app"
+  ).innerHTML = `
+
+    <div class="app">
+
+      ${sidebar()}
+
+      <div class="main">
+
+        ${topbar()}
+
+        <main class="page">
+
+          ${content}
+
+        </main>
+
+      </div>
+
+    </div>
+
+    <div id="modalRoot"></div>
+
+  `;
+
+  if (modal) {
+    renderModal();
+  }
+}
+
+/* =========================
+   START APP
+========================= */
+
+render();
+
+</script>
+
+</body>
+</html>
